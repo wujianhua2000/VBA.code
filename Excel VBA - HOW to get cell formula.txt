@@ -1,0 +1,71 @@
+
+
+Option Explicit
+
+Public Function seekFormula(rowIDX As Integer, colIDX As Integer) As String
+
+    Dim txtstr As String
+    
+    Dim colnum As String
+    Dim colTxt As String
+    
+    Dim isFOR   As Boolean
+    
+    Cells(rowIDX, colIDX).Select
+    
+    txtstr = ActiveCell.FormulaR1C1
+    txtstr = ActiveCell.Formula
+    
+    isFOR = (Left(Trim(txtstr), 1) = "=")
+    
+'   Debug.Print "first letter = >>>" + Left(Trim(txtstr), 1) + "<<<"
+    
+    colnum = Asc("A") + colIDX - 1
+    
+    colTxt = Chr(colnum)
+    
+    txtstr = colTxt + Str(rowIDX) + " ===  " + txtstr
+    
+    If Not isFOR Then txtstr = ""
+
+    seekFormula = txtstr
+    
+End Function
+
+
+Public Sub showFOR()
+
+    Dim idxR As Integer
+    Dim idxC As Integer
+    
+    Dim linstr As String
+    Dim allstr As String
+    
+    allstr = "" + Chr(13) + Chr(10)
+    
+    For idxR = 1 To 100
+    
+        For idxC = 1 To 20
+        
+            linstr = seekFormula(idxR, idxC)
+            
+            If Len(linstr) > 0 Then
+                
+                allstr = allstr + linstr + Chr(13) + Chr(10)
+            End If
+            
+        
+        Next idxC
+    
+        allstr = allstr + Chr(13) + Chr(10)
+        
+    Next idxR
+    
+    Open "d:\\xls-formula.txt" For Output As #1
+    Write #1, allstr
+    Close #1
+    
+    MsgBox "Alles in Ordnung!!!"
+
+End Sub
+
