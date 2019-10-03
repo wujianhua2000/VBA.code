@@ -1,0 +1,29 @@
+
+Option Explicit
+
+Function GroupSum(cells As Range, mark As String) As Double
+
+    Dim sum As Double
+    
+    Dim Row As Integer
+    
+    Dim mtag As String
+    Dim valu As Double
+    
+    sum = 0
+    
+    For Row = 1 To 300
+    
+        mtag = cells(Row, 1).Text
+        valu = cells(Row, 2).Value
+        
+        If mtag = mark Then
+            sum = sum + valu
+        End If
+    
+    Next Row
+    
+    GroupSum = sum
+    
+End Function
+
